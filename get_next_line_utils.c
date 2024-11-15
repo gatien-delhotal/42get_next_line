@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/15 17:45:22 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:10:11 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*ft_strndup(char *s, size_t n)
 	return (res);
 }
 
-int	trim_endline(char *s, char *buffer, size_t size)
+int	trim_endline(char **s, char *buffer, size_t size)
 {
 	size_t		i;
 	static char	*mem = NULL;
@@ -77,11 +77,11 @@ int	trim_endline(char *s, char *buffer, size_t size)
 	{
 		i++;
 	}
-	s = str_append(mem, ft_strndup(buffer, i));
+	*s = str_append(mem, ft_strndup(buffer, i));
 	write (1, s, 6);
 	if (buffer[i] == '\n')
 		mem = &buffer[i + 1];
 	else
 		free(mem);
-	return (ft_strlen(s));
+	return (ft_strlen(*s));
 }

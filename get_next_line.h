@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:19:19 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/15 15:30:33 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:01:21 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int		trim_endline(char *s, char *buffer, size_t size);
+int		trim_endline(char **s, char *buffer, size_t size);
 char	*get_next_line(int fd);
 
 #endif
