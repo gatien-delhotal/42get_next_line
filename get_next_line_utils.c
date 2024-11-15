@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/14 21:17:19 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:45:22 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,33 @@ static char	*ft_strndup(char *s, size_t n)
 	size_t	i;
 
 	res = (char *) malloc(n + 1);
-	i = -1;
-	while (++i < n)
+	i = 0;
+	while (i < n)
+	{
 		res[i] = s[i];
+		i++;
+	}
 	res[i] = 0;
 	return (res);
 }
 
-int	trim_endline(char *s, char *buffer)
+int	trim_endline(char *s, char *buffer, size_t size)
 {
-	int			i;
+	size_t		i;
 	static char	*mem = NULL;
 
 	if (!mem)
 		mem = (char *) malloc(4096);
 	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while (i < size && buffer[i] != '\n')
+	{
 		i++;
+	}
+	s = str_append(mem, ft_strndup(buffer, i));
+	write (1, s, 6);
 	if (buffer[i] == '\n')
-		mem = &s[i + 1];
+		mem = &buffer[i + 1];
 	else
 		free(mem);
-	s = str_append(mem, ft_strndup(s, i));
 	return (ft_strlen(s));
 }
