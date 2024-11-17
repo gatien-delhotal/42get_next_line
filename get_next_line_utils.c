@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/15 18:10:11 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:13:44 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static char	*str_append(char *s1, char *s2)
 
 	if (!s1)
 		return (s2);
+	if (!s2)
+		return (s1);
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
 	res = (char *) malloc(size1 + size2 + 1);
@@ -40,7 +42,6 @@ static char	*str_append(char *s1, char *s2)
 	i = -1;
 	while (s1[++i])
 		res[i] = s1[i];
-	free(s1);
 	j = -1;
 	while (s2[++j])
 		res[i + j] = s2[j];
@@ -70,18 +71,18 @@ int	trim_endline(char **s, char *buffer, size_t size)
 	size_t		i;
 	static char	*mem = NULL;
 
-	if (!mem)
-		mem = (char *) malloc(4096);
 	i = 0;
 	while (i < size && buffer[i] != '\n')
 	{
 		i++;
 	}
-	*s = str_append(mem, ft_strndup(buffer, i));
-	write (1, s, 6);
+	*s = str_append(mem, *s);
+	*s = str_append(*s, ft_strndup(buffer, i + 1));
 	if (buffer[i] == '\n')
-		mem = &buffer[i + 1];
+		mem = ft_strndup(&buffer[i + 1], size - i);
 	else
-		free(mem);
-	return (ft_strlen(*s));
+		mem = NULL;
+	//write(1, mem, 1);
+	return (i);
+	//return (ft_strlen(*s));
 }
