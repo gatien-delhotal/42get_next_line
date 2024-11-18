@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/18 20:02:28 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/18 20:28:41 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	*str_append(char *s1, char *s2)
 	j = -1;
 	while (s2[++j])
 		res[i + j] = s2[j];
-	free(s2);
 	res[i + j] = 0;
 	return (res);
 }
@@ -71,20 +70,22 @@ static char	*ft_strndup(char *s, size_t n)
 int	trim_endline(char **s, char *buffer, size_t size)
 {
 	size_t		i;
+	size_t		mem_size;
+	char		*temp;
 	static char	*mem = NULL;
 
+	mem_size = ft_strlen(mem);
 	i = 0;
-	if (size == 0 && ft_strlen(mem) > 1)
-		return (trim_endline(s, mem, ft_strlen(mem)));
-	while (i < size && buffer[i] != '\n')
-	{
+	if (size == 0 && mem_size > 1)
+		return (trim_endline(s, mem, mem_size));
+	temp = str_append(mem, buffer);
+	size += mem_size;
+	while (i < size && temp[i] != '\n')
 		i++;
-	}
-	*s = str_append(mem, *s);
-	*s = str_append(*s, ft_strndup(buffer, i + 1));
+	*s = str_append(*s, ft_strndup(temp, i + 1));
 	if (i < size)
-		mem = ft_strndup(&buffer[i + 1], size - i - 1);
+		mem = ft_strndup(&temp[i + 1], size - i - 1);
 	else
 		mem = NULL;
-	return (i);
+	return (i - mem_size);
 }
