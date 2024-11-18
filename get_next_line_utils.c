@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/17 17:13:44 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/18 20:02:28 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -72,17 +74,17 @@ int	trim_endline(char **s, char *buffer, size_t size)
 	static char	*mem = NULL;
 
 	i = 0;
+	if (size == 0 && ft_strlen(mem) > 1)
+		return (trim_endline(s, mem, ft_strlen(mem)));
 	while (i < size && buffer[i] != '\n')
 	{
 		i++;
 	}
 	*s = str_append(mem, *s);
 	*s = str_append(*s, ft_strndup(buffer, i + 1));
-	if (buffer[i] == '\n')
-		mem = ft_strndup(&buffer[i + 1], size - i);
+	if (i < size)
+		mem = ft_strndup(&buffer[i + 1], size - i - 1);
 	else
 		mem = NULL;
-	//write(1, mem, 1);
 	return (i);
-	//return (ft_strlen(*s));
 }

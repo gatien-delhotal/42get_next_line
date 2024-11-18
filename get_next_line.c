@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:21:18 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/17 17:52:54 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/18 20:07:04 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,22 @@ char	*get_next_line(int fd)
 {
 	char	*buffer;
 	char	*line;
-	size_t	bytes_read;
+	int		bytes_read;
 
+	if (fd < 1)
+		return (NULL);
 	buffer = malloc(BUFFER_SIZE);
+	if (!buffer)
+		return (NULL);
 	line = NULL;
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	while (trim_endline(&line, buffer, bytes_read) == BUFFER_SIZE)
+	if (bytes_read < 0)
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		free(buffer);
+		return (NULL);
 	}
+	while (trim_endline(&line, buffer, bytes_read) == BUFFER_SIZE)
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	free(buffer);
 	return (line);
 }
