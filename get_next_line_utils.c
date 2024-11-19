@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/18 20:28:41 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:33:56 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,29 @@ static char	*str_append(char *s1, char *s2)
 	size_t	j;
 	char	*res;
 
-	if (!s1)
-		return (s2);
-	if (!s2)
-		return (s1);
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
+	if (!s1)
+	{
+		res = ft_strndup(s2, size2);
+		free(s2);
+		return (res);
+	}
+	if (!s2)
+		return (ft_strndup(s1, size1));
 	res = (char *) malloc(size1 + size2 + 1);
 	if (!res)
-		return (0);
+	{
+		free(s2);
+		return (NULL);
+	}
 	i = -1;
 	while (s1[++i])
 		res[i] = s1[i];
 	j = -1;
 	while (s2[++j])
 		res[i + j] = s2[j];
+	free(s2);
 	res[i + j] = 0;
 	return (res);
 }
@@ -56,7 +64,11 @@ static char	*ft_strndup(char *s, size_t n)
 	char	*res;
 	size_t	i;
 
+	if (n == 0)
+		return (NULL);
 	res = (char *) malloc(n + 1);
+	if (!res)
+		return (NULL);
 	i = 0;
 	while (i < n)
 	{
@@ -75,17 +87,20 @@ int	trim_endline(char **s, char *buffer, size_t size)
 	static char	*mem = NULL;
 
 	mem_size = ft_strlen(mem);
-	i = 0;
-	if (size == 0 && mem_size > 1)
-		return (trim_endline(s, mem, mem_size));
-	temp = str_append(mem, buffer);
+	if (!size && !mem_size)
+		return (0);
+	temp = str_append(mem, ft_strndup(buffer, size));
+	if (!temp)
+		return (0);
 	size += mem_size;
+	i = 0;
 	while (i < size && temp[i] != '\n')
 		i++;
 	*s = str_append(*s, ft_strndup(temp, i + 1));
 	if (i < size)
 		mem = ft_strndup(&temp[i + 1], size - i - 1);
-	else
-		mem = NULL;
+	else if (mem)
+		free(mem);
+	free(temp);
 	return (i - mem_size);
 }
