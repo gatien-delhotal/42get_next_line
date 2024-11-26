@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/26 16:26:21 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:08:27 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static char	*str_append(char *s1, char *s2)
 	return (res);
 }
 
+#include <unistd.h>
 int	trim_endline(char **s, char *buffer, size_t size)
 {
 	size_t		i;
@@ -88,12 +89,10 @@ int	trim_endline(char **s, char *buffer, size_t size)
 	while (i < size && temp[i] != '\n')
 		i++;
 	*s = str_append(*s, ft_strndup(temp, i + 1));
+	if (mem)
+		free(mem);
 	if (i < size)
-	{
-		if (mem)
-			free(mem);
 		mem = ft_strndup(&temp[i + 1], size - i - 1);
-	}
 	free(temp);
 	return (i - mem_size);
 }
