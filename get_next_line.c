@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:21:18 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/19 16:44:36 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:49:27 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ int	main(int ac, char **av)
 {
 	int fd = open("./txt", O_RDONLY);
 	int	i = -1;
-	int repeat;
+	int repeat = 1;
+	char *line;
 	if (ac > 1)
 		repeat = av[1][0] - '0';
-	else
-		repeat = 1;
 	while (++i < repeat)
-		printf("%s", get_next_line(fd));
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+		free(line);
+	}
 	close(fd);
 }
