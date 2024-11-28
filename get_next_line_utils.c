@@ -6,15 +6,15 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:26:35 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/28 03:09:50 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/28 05:07:26 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
-	size_t	i;
+	int	i;
 
 	if (!s)
 		return (0);
@@ -24,33 +24,25 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-void	ft_strncpy(char *src, char *dst, int n)
-{
-	int	i;
-
-	i = -1;
-	while (++i < n)
-		dst[i] = src[i];
-	dst[i] = 0;
-}
-
-char	*ft_strndup(char *s, size_t n)
+char	*ft_strndup(char *s, int n)
 {
 	char	*res;
+	int		i;
 
-	if (n == 0)
-		return (NULL);
 	res = malloc(sizeof(char) * (n + 1));
 	if (!res)
 		return (NULL);
-	ft_strncpy(s, res, n);
+	i = -1;
+	while (++i < n)
+		res[i] = s[i];
+	res[i] = '\0';
 	return (res);
 }
 
-char	*strn_append(char *s1, char *s2, size_t n, char aled)
+char	*strn_append(char *s1, char *s2, int n, char must_free)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 	char	*res;
 
 	if (!s1)
@@ -63,7 +55,7 @@ char	*strn_append(char *s1, char *s2, size_t n, char aled)
 	i = -1;
 	while (s1[++i])
 		res[i] = s1[i];
-	if (aled)
+	if (must_free)
 		free(s1);
 	j = 0;
 	while (j < n)
@@ -74,4 +66,3 @@ char	*strn_append(char *s1, char *s2, size_t n, char aled)
 	res[i + j] = 0;
 	return (res);
 }
-

@@ -6,41 +6,16 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:21:18 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/28 03:16:11 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/28 05:07:36 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_destroy_mem(char *mem)
+int	trim_endline(char **s, char *buffer, int size)
 {
-	int	i;
-
-	i = -1;
-	while (++i < BUFFER_SIZE)
-		mem[i] = 0;
-}
-
-char	*ft_fix_mem(char *temp, char *mem, size_t size)
-{
-	char	*dest;
-	size_t	i;
-
-	dest = malloc((size + 1) * sizeof(char));
-	if (!dest)
-		return (NULL);
-	i = -1;
-	while (++i < size)
-		dest[i] = temp[i];
-	free(mem);
-	dest[i] = 0;
-	return (dest);
-}
-
-int	trim_endline(char **s, char *buffer, size_t size)
-{
-	size_t		i;
-	size_t		mem_size;
+	int			i;
+	int			mem_size;
 	char		*temp;
 	static char	*mem = NULL;
 
@@ -61,9 +36,10 @@ int	trim_endline(char **s, char *buffer, size_t size)
 	*s = strn_append(*s, temp, i + 1, 1);
 	mem[0] = '\0';
 	if (i < size)
-		ft_destroy_mem(mem);
-	if (i < size)
-		mem = ft_fix_mem(&temp[i + 1], mem, size - i - 1);
+	{
+		free(mem);
+		mem = ft_strndup(&temp[i + 1], size - i - 1);
+	}
 	if (!mem[0])
 	{
 		free(mem);
@@ -99,7 +75,6 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (line);
 }
-
 /*
 #include <stdio.h>
 #include <fcntl.h>
@@ -118,5 +93,4 @@ int	main(int ac, char **av)
 		free(line);
 	}
 	close(fd);
-}
-*/
+}*/
