@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:19:19 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/28 05:06:20 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/28 06:51:55 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # endif
 
 int		trim_endline(char **s, char *buffer, int size);
-char	*strn_append(char *s1, char *s2, int n, char sadface);
+char	*str_calloc(size_t n);
+char	*strn_append(char *s1, char *s2, int n, char must_free);
 char	*ft_strndup(char *s, int n);
 void	ft_strncpy(char *src, char *dst, int n);
 int		ft_strlen(char *s);

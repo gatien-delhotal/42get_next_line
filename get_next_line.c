@@ -6,11 +6,17 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:21:18 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/28 05:07:36 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/28 07:18:23 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	liberate(char **str)
+{
+	free(*str);
+	*str = NULL;
+}
 
 int	trim_endline(char **s, char *buffer, int size)
 {
@@ -20,11 +26,7 @@ int	trim_endline(char **s, char *buffer, int size)
 	static char	*mem = NULL;
 
 	if (size && !mem)
-	{
-		mem = (char *) malloc(BUFFER_SIZE);
-		if (mem)
-			mem[0] = '\0';
-	}
+		mem = str_calloc(BUFFER_SIZE);
 	mem_size = ft_strlen(mem);
 	if (!mem || (!size && !mem_size))
 		return (0);
@@ -36,17 +38,12 @@ int	trim_endline(char **s, char *buffer, int size)
 	*s = strn_append(*s, temp, i + 1, 1);
 	mem[0] = '\0';
 	if (i < size)
-	{
 		free(mem);
+	if (i < size)
 		mem = ft_strndup(&temp[i + 1], size - i - 1);
-	}
 	if (!mem[0])
-	{
-		free(mem);
-		mem = NULL;
-	}
-	free(temp);
-	return (i - mem_size);
+		liberate(&mem);
+	return (free(temp), i - mem_size);
 }
 
 char	*get_next_line(int fd)
@@ -57,21 +54,15 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (NULL);
-	buffer = malloc(BUFFER_SIZE + 1);
+	buffer = str_calloc(BUFFER_SIZE);
 	if (!buffer)
 		return (NULL);
 	line = NULL;
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read < 0)
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free(buffer), NULL);
 	while (trim_endline(&line, buffer, bytes_read) == BUFFER_SIZE)
-	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[bytes_read] = 0;
-	}
 	free(buffer);
 	return (line);
 }
