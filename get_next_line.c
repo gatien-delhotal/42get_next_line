@@ -6,7 +6,7 @@
 /*   By: gdelhota <gdelhota@student.42perpigna      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:21:18 by gdelhota          #+#    #+#             */
-/*   Updated: 2024/11/28 07:18:23 by gdelhota         ###   ########.fr       */
+/*   Updated: 2024/11/28 07:35:22 by gdelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (line);
 }
-/*
-#include <stdio.h>
+
+/*#include <stdio.h>
 #include <fcntl.h>
 int	main(int ac, char **av)
 {
